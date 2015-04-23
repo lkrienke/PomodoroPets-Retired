@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.jazzyapps.pomodoropets.HomeActivity" 
+    android:background="@drawable/herpderp"
+    >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="54dp" 
+        android:text = ""
+        android:onClick = "changeTimeButtonClicked"
+        android:clickable = "true"
+        
+        android:textSize = "32sp"
+        />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="70dp"
+        android:onClick="workButtonClicked"
+        android:text="@string/workButton" 
+        />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/shiba" 
+        android:contentDescription="@string/hello_world"
+        />
+    
+<!-- Note: The progress bar color is changed in the main activity -->
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button1"
+        android:layout_marginBottom="15dp" 
+        android:layout_centerHorizontal = "true"
+        android:progress = "50"
+        android:max = "100"
+        
+        android:maxHeight="15dip"
+    	android:minHeight="15dip"
+
+    	android:minWidth="100dip"
+    	android:maxWidth="100dip"
+        />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/progressBar1"
+        android:layout_marginLeft="14dp"
+        android:text="@string/progressBarLabel" 
+        />
+
+
+</RelativeLayout>

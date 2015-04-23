@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pomodoro Pets</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="defaultButtonStringVal">0</string>
+    <string name="workButton">Work</string>
+    <string name="ShibaDescription">A Cute Shiba Inu!</string>
+    <string name="progressBarLabel">Happiness:</string>
+    <string name="shiba_inu">Shiba Inu</string>
+    <string name="pick_pet">Pick a starter pet!</string>
+    <string name="dialog_adopted_dog">Congratulations, you adopted a puppy!</string>
+    <string name="dialog_adopted_ditto">Your ditto turned into a dog.</string>
+    <string name="next">next</string>
+    <string name="back">back</string>
+    <string name="name_pet">Name your pet!</string>
+    
+</resources>
