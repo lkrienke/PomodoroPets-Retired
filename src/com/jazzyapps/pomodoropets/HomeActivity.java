@@ -28,7 +28,7 @@ public class HomeActivity extends Activity {
 	//Game state variables
 	private boolean working = false;
 	private boolean resetGame = false;
-	private int money = 20;
+	private int money = 30; 
 	
 	//Various Views of DOOM
 	private PetCountDownTimer c;
@@ -291,6 +291,8 @@ public class HomeActivity extends Activity {
 			clickCount = 10;
 		}
 		origClickCount = clickCount;
+		
+		moneyCalc();
 		initClock();
 		return;
 	}
@@ -343,4 +345,14 @@ public class HomeActivity extends Activity {
 		}
 	}
 	
+	//Uses origClickCount to decide how much happiness you will win or lose.
+	//If test is on, money will remain the default value assigned at the top of the program.
+	//Will change this calculation later after we decide on good timer options for the user.
+	public void moneyCalc()
+	{
+		if(origClickCount > 10)
+		{
+			money = origClickCount/60; //1min = 1 money right now
+		}
+	}
 }
