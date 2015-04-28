@@ -25,6 +25,7 @@ public class HomeActivity extends Activity {
 	int min = 0;
 	int sec = 10;
 	
+	//Game state variables
 	private boolean working = false;
 	private boolean resetGame = false;
 	private int money = 20;
@@ -64,7 +65,6 @@ public class HomeActivity extends Activity {
 	        setContentView(R.layout.activity_home);
 	        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	        
-	        //Might work? Don't think there's a way to make sp global.
 	        SharedPreferences sp = getSharedPreferences("PomoPetsPrefs", 0);
 	        SharedPreferences.Editor sped = sp.edit();
 	        currProgress = sp.getInt("currProgress", 50);
@@ -72,6 +72,9 @@ public class HomeActivity extends Activity {
 	        tv = (TextView) findViewById(R.id.textView1);
 			button = (Button) findViewById(R.id.button1);
 			pb = (ProgressBar) findViewById(R.id.progressBar1);
+			
+	        checkForPrevEnding();
+			
 			//Stuff for customizing the progress bar.
 			pb.setProgress(currProgress);
 			int color = 0xFF00FF00;
@@ -164,7 +167,8 @@ public class HomeActivity extends Activity {
 	        {
 	        	tv.setText("You win!");
 	        	button.setText("Reset Game?");
-	        	resetGame = true;
+	        	//resetGame = true;
+	        	sped.putBoolean("resetGame", true);
 	        }
 	        
 	        clickCount = origClickCount;
@@ -179,6 +183,8 @@ public class HomeActivity extends Activity {
 	{
 		SharedPreferences sp = getSharedPreferences("PomoPetsPrefs", 0);
         SharedPreferences.Editor sped = sp.edit();
+        
+        resetGame = sp.getBoolean("resetGame", false);
 		
         //consider making it so reset doesn't start the timer again?
 		if(resetGame)
@@ -187,10 +193,13 @@ public class HomeActivity extends Activity {
 			
 			sped.putInt("currProgress", 50);
 			
-			resetGame = false;
-		}
-		
-		if(!working)
+			//resetGame = false;
+			sped.putBoolean("resetGame", false);
+			
+			button.setText(R.string.workButton);
+			initClock(); //might need to set clickCount to origClickCount? Probably fine though.
+		} //Added else to fix part of the resetGame error
+		else if(!working)
 		{
 			//Set up timer
 			c = new PetCountDownTimer((clickCount*1000), 1000);
@@ -219,7 +228,8 @@ public class HomeActivity extends Activity {
 			{
 				tv.setText("Your Pet is Dead. Congrats.");
 				button.setText("Reset Game?");
-				resetGame = true;
+				//resetGame = true;
+				sped.putBoolean("resetGame", true);
 			}
 			
 			clickCount = origClickCount;
@@ -310,4 +320,27 @@ public class HomeActivity extends Activity {
 		
 		tv.setText(min + ":" + sec);		        
 	}
+	
+	//This method makes sure you can't cheat your way out of dying (also doesn't cheat you out of winning)
+	//In the future, if we want to add more ending features we should make them their own methods because
+	//We will need to call them in 2 places in this activity. (This method and one above)
+	private void checkForPrevEnding()
+	{
+		SharedPreferences sp = getSharedPreferences("PomoPetsPrefs", 0);
+		resetGame = sp.getBoolean("resetGame", false);
+		
+		if(resetGame)
+		{
+			if(currProgress == 100) //Add methods to onFinish in PetCountDownTimer when needed
+			{
+	        	tv.setText("You win!");
+			}
+			else if(currProgress == 0) //Add methods to workButtonClicked when needed
+			{
+				tv.setText("Your Pet is Dead. Congrats.");
+			}
+			button.setText("Reset Game?");
+		}
+	}
+	
 }
