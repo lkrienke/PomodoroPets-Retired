@@ -27,8 +27,8 @@ public class HomeActivity extends Activity {
 	
 	//Game state variables
 	private boolean working = false;
-	private boolean resetGame = false;
 	private int money = 30; 
+	private String scoreDisplay = "Score: ";
 	
 	//Various Views of DOOM
 	private PetCountDownTimer c;
@@ -37,11 +37,13 @@ public class HomeActivity extends Activity {
 	private ProgressBar pb;
 	private AlertDialog.Builder taBuilder;
 	private AlertDialog timerAlert;
+	private TextView scoretv;
 	
 	//Shared Preference Variables, need to use sp and sped for all of these
 	//keys have the same names as the variables
 	private int currProgress;
-
+	private boolean resetGame = false;
+	private int score = 0;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +70,13 @@ public class HomeActivity extends Activity {
 	        SharedPreferences sp = getSharedPreferences("PomoPetsPrefs", 0);
 	        SharedPreferences.Editor sped = sp.edit();
 	        currProgress = sp.getInt("currProgress", 50);
+	        score = sp.getInt("score", 0);
 	        
 	        tv = (TextView) findViewById(R.id.textView1);
 			button = (Button) findViewById(R.id.button1);
 			pb = (ProgressBar) findViewById(R.id.progressBar1);
+			scoretv = (TextView) findViewById(R.id.textView3);
+			displayScore();
 			
 	        checkForPrevEnding();
 			
@@ -171,6 +176,10 @@ public class HomeActivity extends Activity {
 	        	button.setText("Reset Game?");
 	        	//resetGame = true;
 	        	sped.putBoolean("resetGame", true);
+	        	score = sp.getInt("score", 0);
+	        	score++;
+				sped.putInt("score", score);
+				displayScore();
 	        }
 	        
 	        clickCount = origClickCount;
@@ -186,6 +195,7 @@ public class HomeActivity extends Activity {
 		SharedPreferences sp = getSharedPreferences("PomoPetsPrefs", 0);
         SharedPreferences.Editor sped = sp.edit();
         
+        displayScore();
         resetGame = sp.getBoolean("resetGame", false);
 		
         //consider making it so reset doesn't start the timer again?
@@ -233,6 +243,14 @@ public class HomeActivity extends Activity {
 				button.setText("Reset Game?");
 				//resetGame = true;
 				sped.putBoolean("resetGame", true);
+				score = sp.getInt("score", 0);
+				score--;
+				sped.putInt("score", score);
+				displayScore();
+				
+				//pick a new pet! (because yours died)
+	            startActivity(new Intent(this, PickPetActivity.class));
+	            finish();
 			}
 			
 			clickCount = origClickCount;
@@ -333,6 +351,7 @@ public class HomeActivity extends Activity {
 	private void checkForPrevEnding()
 	{
 		SharedPreferences sp = getSharedPreferences("PomoPetsPrefs", 0);
+		SharedPreferences.Editor sped = sp.edit();
 		resetGame = sp.getBoolean("resetGame", false);
 		
 		if(resetGame)
@@ -341,14 +360,28 @@ public class HomeActivity extends Activity {
 			{
 				//tv.setText(R.string.win);
 				tv.setText("You win!");
+				score = sp.getInt("score", 0);
+				score++;
+				sped.putInt("score", score);
+				displayScore();
 			}
 			else if(currProgress == 0) //Add methods to workButtonClicked when needed
 			{
 				//tv.setText(R.string.loss);
 				tv.setText("Your Pet is Dead. Congrats.");
+				score = sp.getInt("score", 0);
+				score--;
+				sped.putInt("score", score);
+				displayScore();
+				
+				//pick a new pet! (because yours died)
+	            startActivity(new Intent(this, PickPetActivity.class));
+	            finish();
 			}
 			button.setText("Reset Game?");
 		}
+		
+		sped.commit();
 	}
 	
 	//Uses origClickCount to decide how much happiness you will win or lose.
@@ -360,5 +393,13 @@ public class HomeActivity extends Activity {
 		{
 			money = origClickCount/60; //1min = 1 money right now
 		}
+	}
+	
+	public void displayScore()
+	{
+		SharedPreferences sp = getSharedPreferences("PomoPetsPrefs", 0);
+		score = sp.getInt("score", 0);
+		scoreDisplay = "Score: " + score;
+		scoretv.setText(scoreDisplay);
 	}
 }
