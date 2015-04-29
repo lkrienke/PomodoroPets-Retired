@@ -154,8 +154,9 @@ public class HomeActivity extends Activity {
 	    public void onFinish() 
 	    {
 			//You'll get money in here!
-	        tv.setText("Timer Done!");
-	        working = false;
+	        //tv.setText("Timer Done!");
+        	tv.setText(R.string.win);
+			working = false;
 	        button.setText("Reset Timer?");
 	        
 	        currProgress = pb.getProgress() + money;
@@ -166,6 +167,7 @@ public class HomeActivity extends Activity {
 	        if(pb.getProgress() == 100)
 	        {
 	        	tv.setText("You win!");
+	        	
 	        	button.setText("Reset Game?");
 	        	//resetGame = true;
 	        	sped.putBoolean("resetGame", true);
@@ -214,7 +216,8 @@ public class HomeActivity extends Activity {
 			// Pet loses Happiness
 			c.cancel();
 			
-			tv.setText("Wow, Really?");
+			tv.setText(R.string.loss);
+			//tv.setText("Wow, Really?");
 			button.setText("You Suck, Reset Timer?");
 			working = false;
 			
@@ -298,6 +301,7 @@ public class HomeActivity extends Activity {
 	}
 	
 	//Runs when the clock is touched by the user
+	//Only works if the timer isn't currently running
 	public void changeTimeButtonClicked(View v)
 	{
 		if(!working)
@@ -335,10 +339,12 @@ public class HomeActivity extends Activity {
 		{
 			if(currProgress == 100) //Add methods to onFinish in PetCountDownTimer when needed
 			{
-	        	tv.setText("You win!");
+				//tv.setText(R.string.win);
+				tv.setText("You win!");
 			}
 			else if(currProgress == 0) //Add methods to workButtonClicked when needed
 			{
+				//tv.setText(R.string.loss);
 				tv.setText("Your Pet is Dead. Congrats.");
 			}
 			button.setText("Reset Game?");

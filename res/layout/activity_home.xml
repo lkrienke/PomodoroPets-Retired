@@ -22,6 +22,7 @@
         android:onClick = "changeTimeButtonClicked"
         android:clickable = "true"
         
+        android:gravity="center_vertical|center_horizontal"
         android:textSize = "32sp"
         />
 

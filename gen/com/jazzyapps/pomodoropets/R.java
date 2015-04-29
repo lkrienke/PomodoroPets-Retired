@@ -24,8 +24,9 @@ public final class R {
     public static final class drawable {
         public static final int ditto=0x7f020000;
         public static final int herpderp=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int shiba=0x7f020003;
+        public static final int herpderp4=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int shiba=0x7f020004;
     }
     public static final class id {
         public static final int action_settings=0x7f080008;
@@ -54,11 +55,13 @@ public final class R {
         public static final int dialog_adopted_ditto=0x7f05000a;
         public static final int dialog_adopted_dog=0x7f050009;
         public static final int hello_world=0x7f050001;
+        public static final int loss=0x7f05000e;
         public static final int name_pet=0x7f05000d;
         public static final int next=0x7f05000b;
         public static final int pick_pet=0x7f050008;
         public static final int progressBarLabel=0x7f050006;
         public static final int shiba_inu=0x7f050007;
+        public static final int win=0x7f05000f;
         public static final int workButton=0x7f050004;
     }
     public static final class style {

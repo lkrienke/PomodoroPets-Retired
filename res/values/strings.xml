@@ -15,5 +15,7 @@
     <string name="next">next</string>
     <string name="back">back</string>
     <string name="name_pet">Name your pet!</string>
+    <string name="loss"><small><big>You lost!</big></small>\n<small><small>Click here to change time</small></small></string>
+    <string name="win"><small><big>You win!</big></small>\n<small><small>Click here to change time</small></small></string>
     
 </resources>
