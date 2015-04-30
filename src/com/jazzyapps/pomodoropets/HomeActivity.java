@@ -20,10 +20,10 @@ public class HomeActivity extends Activity {
 	
 	//Variables for the counter calculations
 	//Consider doing an int to char conversion to make it prettier.
-	int clickCount = 10; //start at ten seconds
-	int origClickCount = 10;
+	int clickCount = 5; //start at ten seconds
+	int origClickCount = 5;
 	int min = 0;
-	int sec = 10;
+	int sec = 5;
 	
 	//Game state variables
 	private boolean working = false;
@@ -49,7 +49,6 @@ public class HomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // Change preferences
         SharedPreferences prefs = getSharedPreferences("PomoPetsPrefs", 0);
         boolean petPicked = prefs.getBoolean("petPicked", false);
         
@@ -80,7 +79,7 @@ public class HomeActivity extends Activity {
 			
 	        checkForPrevEnding();
 			
-			//Stuff for customizing the progress bar.
+			//Stuff for customizing the progress bar. All other style in XML.
 			pb.setProgress(currProgress);
 			int color = 0xFF00FF00;
 			pb.getIndeterminateDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
@@ -88,45 +87,20 @@ public class HomeActivity extends Activity {
 			
 			initClock();
 	        initTimerDialogue();
-	        
-	        sped.commit(); //I think I need this for first time I make prefs file
         }
     }
-
-	/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    */
-
+	
 	
 	public class PetCountDownTimer extends CountDownTimer 
 	{
 		SharedPreferences sp = getSharedPreferences("PomoPetsPrefs", 0);
         SharedPreferences.Editor sped = sp.edit();
-
 		
 		public PetCountDownTimer(long startTime, long interval)
 		{
 			super(startTime, interval);
 		}
 		
-		//I don't think I need to use the parameter.
 		//Lots of calculation errors based on clock cycles, using my own variables for display.
 		@Override
 	    public void onTick(long millsTillDone) 
@@ -143,23 +117,13 @@ public class HomeActivity extends Activity {
 				sec--;
 			}
 
-			
 			initClock();
-			
-			/*
-			min = millsTillDone / (60 * 1000);
-			sec = (millsTillDone/(double)1000) % 60;
-			//sec = Math.floor(sec);
-			
-	        tv.setText(min + ":" + sec);
-	        */
 	    }
 
 		@Override
 	    public void onFinish() 
 	    {
-			//You'll get money in here!
-	        //tv.setText("Timer Done!");
+			//You'll get money/happiness in here!
         	tv.setText(R.string.win);
 			working = false;
 	        button.setText("Reset Timer?");
@@ -170,25 +134,15 @@ public class HomeActivity extends Activity {
 	        sped.putInt("currProgress", currProgress);
 	        
 	        if(pb.getProgress() == 100)
-	        {
-	        	tv.setText("You win!");
-	        	
-	        	button.setText("Reset Game?");
-	        	//resetGame = true;
+	        {	
 	        	sped.putBoolean("resetGame", true);
-	        	score = sp.getInt("score", 0);
-	        	score++;
-				sped.putInt("score", score);
-				displayScore();
+	        	runEndState();
 	        }
 	        
 	        clickCount = origClickCount;
-	        
 	        sped.commit();
 	    }
 	};
-	
-
 	
 	public void workButtonClicked(View v) //like an interrupt?
 	{
@@ -198,18 +152,15 @@ public class HomeActivity extends Activity {
         displayScore();
         resetGame = sp.getBoolean("resetGame", false);
 		
-        //consider making it so reset doesn't start the timer again?
 		if(resetGame)
 		{
 			pb.setProgress(50);
 			
 			sped.putInt("currProgress", 50);
-			
-			//resetGame = false;
 			sped.putBoolean("resetGame", false);
 			
 			button.setText(R.string.workButton);
-			initClock(); //might need to set clickCount to origClickCount? Probably fine though.
+			initClock();
 			
 			//pick a new pet! (because yours died)
             startActivity(new Intent(this, PickPetActivity.class));
@@ -225,33 +176,22 @@ public class HomeActivity extends Activity {
 			button.setText("Give Up");
 			working = true;
 		}
-		else //working
+		else //User gave up early
 		{
-			// Only happens if you give up early.
-			// Pet loses Happiness
 			c.cancel();
 			
 			tv.setText(R.string.loss);
-			//tv.setText("Wow, Really?");
 			button.setText("You Suck, Reset Timer?");
 			working = false;
 			
 			currProgress = pb.getProgress() - money;
 			pb.setProgress(currProgress);
-			
-			
 			sped.putInt("currProgress", currProgress);
 			
 			if(pb.getProgress() == 0)
 			{
-				tv.setText("Your Pet is Dead. Congrats.");
-				button.setText("Reset Game?");
-				//resetGame = true;
 				sped.putBoolean("resetGame", true);
-				score = sp.getInt("score", 0);
-				score--;
-				sped.putInt("score", score);
-				displayScore();
+				runEndState();
 			}
 			
 			clickCount = origClickCount;
@@ -265,7 +205,6 @@ public class HomeActivity extends Activity {
 	{
 		CharSequence timeOptions[] = new CharSequence[] {"1", "5", "10", "25", "Test"}; 
 		
-		//Might have to put this in main, check if program crashes?
 		taBuilder = new AlertDialog.Builder(this) //Awesome shortcuts ahead!
 		.setTitle("Work for how many minutes?")
 		.setCancelable(true)
@@ -274,7 +213,6 @@ public class HomeActivity extends Activity {
 			public void onClick(DialogInterface dialog, int which) 
 			{
 				//Nothing Yet
-				//consider making the dialog non cancelable
 			}
 		})
 		.setSingleChoiceItems(timeOptions, 4, new DialogInterface.OnClickListener(){
@@ -298,7 +236,17 @@ public class HomeActivity extends Activity {
 				}
 			}
 		});
-			timerAlert = taBuilder.create();
+		timerAlert = taBuilder.create();
+	}
+	
+	//Runs when the clock is touched by the user
+	//Only works if the timer isn't currently running
+	public void changeTimeButtonClicked(View v)
+	{
+		if(!working)
+		{
+			timerAlert.show();
+		}
 	}
 	
 	//i represents the number of minutes user wants to wait for on next work cycle.
@@ -317,16 +265,6 @@ public class HomeActivity extends Activity {
 		moneyCalc();
 		initClock();
 		return;
-	}
-	
-	//Runs when the clock is touched by the user
-	//Only works if the timer isn't currently running
-	public void changeTimeButtonClicked(View v)
-	{
-		if(!working)
-		{
-			timerAlert.show();
-		}
 	}
 
 	//Used to display the current clock
@@ -347,38 +285,14 @@ public class HomeActivity extends Activity {
 	}
 	
 	//This method makes sure you can't cheat your way out of dying (also doesn't cheat you out of winning)
-	//In the future, if we want to add more ending features we should make them their own methods because
-	//We will need to call them in 2 places in this activity. (This method and one above)
 	private void checkForPrevEnding()
 	{
 		SharedPreferences sp = getSharedPreferences("PomoPetsPrefs", 0);
-		SharedPreferences.Editor sped = sp.edit();
 		resetGame = sp.getBoolean("resetGame", false);
-		
 		if(resetGame)
 		{
-			if(currProgress == 100) //Add methods to onFinish in PetCountDownTimer when needed
-			{
-				//tv.setText(R.string.win);
-				tv.setText("You win!");
-				score = sp.getInt("score", 0);
-				score++;
-				sped.putInt("score", score);
-				displayScore();
-			}
-			else if(currProgress == 0) //Add methods to workButtonClicked when needed
-			{
-				//tv.setText(R.string.loss);
-				tv.setText("Your Pet is Dead. Congrats.");
-				score = sp.getInt("score", 0);
-				score--;
-				sped.putInt("score", score);
-				displayScore();
-			}
-			button.setText("Reset Game?");
+			runEndState();
 		}
-		
-		sped.commit();
 	}
 	
 	//Uses origClickCount to decide how much happiness you will win or lose.
@@ -398,5 +312,30 @@ public class HomeActivity extends Activity {
 		score = sp.getInt("score", 0);
 		scoreDisplay = "Score: " + score;
 		scoretv.setText(scoreDisplay);
+	}
+	
+	public void runEndState()
+	{
+		SharedPreferences sp = getSharedPreferences("PomoPetsPrefs", 0);
+		SharedPreferences.Editor sped = sp.edit();
+		score = sp.getInt("score", 0);
+
+		if(pb.getProgress() == 100)
+		{
+			tv.setText("You win!");
+			score++;
+			sped.putInt("score", score);
+			displayScore();
+		}
+		else if(pb.getProgress() == 0)
+		{
+			tv.setText("Your pet is Dead. Congrats");
+			score--;
+			sped.putInt("score", score);
+			displayScore();
+		}
+		
+		button.setText("Reset Game?");
+		sped.commit();
 	}
 }
