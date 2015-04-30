@@ -22,13 +22,11 @@ public class PickPetActivity extends Activity {
         SharedPreferences prefs = getSharedPreferences("PomoPetsPrefs", 0);
         pickPetText = (TextView) findViewById(R.id.pick_pet_text);
         
+        //this is working
         if(prefs.getBoolean("petPicked", false))
         {
         	pickPetText.setText(R.string.pick_new_pet);
         }
-        
-        //LinearLayout linearLayout = (LinearLayout) findViewById(R.id.pick_pet_layout);
-        //linearLayout.setBackgroundColor(Color.CYAN);
         
 	    ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
 	    ImageAdapter adapter = new ImageAdapter(this);

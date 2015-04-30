@@ -210,6 +210,11 @@ public class HomeActivity extends Activity {
 			
 			button.setText(R.string.workButton);
 			initClock(); //might need to set clickCount to origClickCount? Probably fine though.
+			
+			//pick a new pet! (because yours died)
+            startActivity(new Intent(this, PickPetActivity.class));
+            finish();
+            
 		} //Added else to fix part of the resetGame error
 		else if(!working)
 		{
@@ -247,10 +252,6 @@ public class HomeActivity extends Activity {
 				score--;
 				sped.putInt("score", score);
 				displayScore();
-				
-				//pick a new pet! (because yours died)
-	            startActivity(new Intent(this, PickPetActivity.class));
-	            finish();
 			}
 			
 			clickCount = origClickCount;
@@ -309,7 +310,7 @@ public class HomeActivity extends Activity {
 		}
 		else //test case
 		{
-			clickCount = 10;
+			clickCount = 5;
 		}
 		origClickCount = clickCount;
 		
@@ -373,10 +374,6 @@ public class HomeActivity extends Activity {
 				score--;
 				sped.putInt("score", score);
 				displayScore();
-				
-				//pick a new pet! (because yours died)
-	            startActivity(new Intent(this, PickPetActivity.class));
-	            finish();
 			}
 			button.setText("Reset Game?");
 		}
