@@ -74,7 +74,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/progressBar1"
         android:layout_marginLeft="14dp"
-        android:text="@string/progressBarLabel" 
+        android:text="@string/progressBarLabel"
+        
+        android:textColor="#FFFFFF" 
         />
 
 <!-- Need to make this not look terrible still. -->

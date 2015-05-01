@@ -15,15 +15,16 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 public class HomeActivity extends Activity {
+	
+	final int TEST_TIME = 5;
 	
 	//Variables for the counter calculations
 	//Consider doing an int to char conversion to make it prettier.
-	int clickCount = 5; //start at ten seconds
-	int origClickCount = 5;
+	int clickCount = TEST_TIME; //start at ten seconds
+	int origClickCount = TEST_TIME;
 	int min = 0;
-	int sec = 5;
+	int sec = TEST_TIME;
 	
 	//Game state variables
 	private boolean working = false;
@@ -203,7 +204,7 @@ public class HomeActivity extends Activity {
 	
 	private void initTimerDialogue()
 	{
-		CharSequence timeOptions[] = new CharSequence[] {"1", "5", "10", "25", "Test"}; 
+		CharSequence timeOptions[] = new CharSequence[] {"10 (Practice)", "25 (Recommended)", "60 (Coding)", "Test"}; 
 		
 		taBuilder = new AlertDialog.Builder(this) //Awesome shortcuts ahead!
 		.setTitle("Work for how many minutes?")
@@ -223,15 +224,13 @@ public class HomeActivity extends Activity {
 			{
 				switch(which)
 				{
-				case 0: setClickCount(1);
+				case 0: setClickCount(10);
 						break;
-				case 1: setClickCount(5);
+				case 1: setClickCount(25);
 						break;
-				case 2: setClickCount(10);
+				case 2: setClickCount(60);
 						break;
-				case 3: setClickCount(25);
-						break;
-				case 4: setClickCount(0); //test case!
+				case 3: setClickCount(0);
 						break;
 				}
 			}
@@ -258,7 +257,7 @@ public class HomeActivity extends Activity {
 		}
 		else //test case
 		{
-			clickCount = 5;
+			clickCount = TEST_TIME;
 		}
 		origClickCount = clickCount;
 		
@@ -281,7 +280,31 @@ public class HomeActivity extends Activity {
 			sec = clickCount;
 		}
 		
-		tv.setText(min + ":" + sec);		        
+		//can still clean this up a bit
+		if(sec > 9)
+		{
+			if(min == 0)
+			{
+				tv.setText(":" + sec);
+			}
+			else
+			{
+				tv.setText(min + ":" + sec);
+			}
+		}
+		else
+		{
+			if(min == 0)
+			{
+				tv.setText(":" + "0" + sec);
+			}
+			else
+			{
+				tv.setText(min + ":" + "0" + sec);
+			}
+			
+		}
+		        
 	}
 	
 	//This method makes sure you can't cheat your way out of dying (also doesn't cheat you out of winning)
@@ -300,7 +323,7 @@ public class HomeActivity extends Activity {
 	//Will change this calculation later after we decide on good timer options for the user.
 	public void moneyCalc()
 	{
-		if(origClickCount > 10)
+		if(origClickCount > TEST_TIME)
 		{
 			money = origClickCount/60; //1min = 1 money right now
 		}
