@@ -23,7 +23,7 @@ public class PickPetActivity extends Activity {
         pickPetText = (TextView) findViewById(R.id.pick_pet_text);
         
         //this is working
-        if(prefs.getBoolean("petPicked", false))
+        if(!prefs.getBoolean("firstTime", true))
         {
         	pickPetText.setText(R.string.pick_new_pet);
         }

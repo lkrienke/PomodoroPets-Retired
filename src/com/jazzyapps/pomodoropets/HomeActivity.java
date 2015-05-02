@@ -51,10 +51,10 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         SharedPreferences prefs = getSharedPreferences("PomoPetsPrefs", 0);
-        boolean petPicked = prefs.getBoolean("petPicked", false);
+        boolean firstTime = prefs.getBoolean("firstTime", true);
         
         // if no pet has been picked before, run the PickPetActivity
-        if(!petPicked)
+        if(firstTime)
         {
             startActivity(new Intent(this, PickPetActivity.class));
             finish();	// finish first instance of MainActivity if first time 

@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.jazzyapps.pomodoropets.PickPetActivity"
     android:orientation="vertical"
@@ -12,6 +11,10 @@
     
     android:background="@drawable/herpderp4"
     >
+    
+    <!-- the following lines were in the LinearLayout above -->
+    <!-- android:paddingLeft="@dimen/activity_horizontal_margin" -->
+    <!-- android:paddingRight="@dimen/activity_horizontal_margin" -->
 	
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,6 +29,7 @@
 	        android:layout_centerHorizontal="true"
 	        android:text="@string/pick_pet"
 	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:textColor="#FFFFFF"
 	         />
 	</RelativeLayout>
 	

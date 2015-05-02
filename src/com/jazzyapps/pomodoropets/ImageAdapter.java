@@ -21,7 +21,7 @@ public class ImageAdapter extends PagerAdapter {
 	
 	// SharedPreferences variables
 	// pet name key: petName
-	// pet picked boolean key: petPicked
+    // first time app opened boolean key: firstTime
 	
 	EditText petName;
 	
@@ -128,7 +128,7 @@ public class ImageAdapter extends PagerAdapter {
 			   .setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
 				   public void onClick(DialogInterface dialog, int id) {
 					   
-					   setPickedPetBool(true);
+					   setFirstTimeBool(true);
 					   setPickedPetName(petName.getText().toString());
 					   Intent intent = new Intent(context, HomeActivity.class);
 					   context.startActivity(intent);
@@ -148,16 +148,16 @@ public class ImageAdapter extends PagerAdapter {
         alert.show();
 	}
 	
-	public void setPickedPetBool(boolean pickedPet) {
+    public void setFirstTimeBool(boolean firstTime) {
 
 		Activity activity = (Activity) context;
 		
 		SharedPreferences prefs = activity.getSharedPreferences("PomoPetsPrefs", 0);
 		SharedPreferences.Editor edit = prefs.edit();
-		if (pickedPet)
-			edit.putBoolean("petPicked", Boolean.TRUE);
+        if (firstTime)
+            edit.putBoolean("firstTime", Boolean.FALSE);
 		else
-			edit.putBoolean("petPicked", Boolean.FALSE);
+            edit.putBoolean("firstTime", Boolean.TRUE);
 		
         edit.commit();
 	}
