@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -128,8 +127,8 @@ public class ImageAdapter extends PagerAdapter {
 			   .setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
 				   public void onClick(DialogInterface dialog, int id) {
 					   
-					   setFirstTimeBool(true);
-					   setPickedPetName(petName.getText().toString());
+					   SetSharedPreferences.setBoolean((Activity) context, "firstTime", false);
+					   SetSharedPreferences.setString((Activity) context, "petName", petName.getText().toString());
 					   Intent intent = new Intent(context, HomeActivity.class);
 					   context.startActivity(intent);
 					   
@@ -146,31 +145,6 @@ public class ImageAdapter extends PagerAdapter {
 
         AlertDialog alert = builder.create();
         alert.show();
-	}
-	
-    public void setFirstTimeBool(boolean firstTime) {
-
-		Activity activity = (Activity) context;
-		
-		SharedPreferences prefs = activity.getSharedPreferences("PomoPetsPrefs", 0);
-		SharedPreferences.Editor edit = prefs.edit();
-        if (firstTime)
-            edit.putBoolean("firstTime", Boolean.FALSE);
-		else
-            edit.putBoolean("firstTime", Boolean.TRUE);
-		
-        edit.commit();
-	}
-	
-	public void setPickedPetName(String name) {
-		
-		Activity activity = (Activity) context;
-		
-		SharedPreferences prefs = activity.getSharedPreferences("PomoPetsPrefs", 0);
-		SharedPreferences.Editor edit = prefs.edit();
-		edit.putString("petName", name);
-		
-        edit.commit();
 	}
 }
 
