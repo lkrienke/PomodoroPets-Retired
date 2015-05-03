@@ -35,6 +35,7 @@ public final class R {
         public static final int pick_pet_layout=0x7f080006;
         public static final int pick_pet_text=0x7f080007;
         public static final int progressBar1=0x7f080003;
+        public static final int reset=0x7f08000a;
         public static final int textView1=0x7f080000;
         public static final int textView2=0x7f080004;
         public static final int textView3=0x7f080005;
