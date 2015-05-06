@@ -19,11 +19,10 @@ public class PickPetActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_pick_pet);
         
-        SharedPreferences prefs = getSharedPreferences("PomoPetsPrefs", 0);
         pickPetText = (TextView) findViewById(R.id.pick_pet_text);
         
         //this is working
-        if(!prefs.getBoolean("firstTime", true))
+        if(!Prefs.getBoolean(this, "firstTime", true))
         {
         	pickPetText.setText(R.string.pick_new_pet);
         }

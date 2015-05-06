@@ -127,8 +127,8 @@ public class ImageAdapter extends PagerAdapter {
 			   .setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
 				   public void onClick(DialogInterface dialog, int id) {
 					   
-					   SetSharedPreferences.setBoolean((Activity) context, "firstTime", false);
-					   SetSharedPreferences.setString((Activity) context, "petName", petName.getText().toString());
+					   Prefs.setBoolean((Activity) context, "firstTime", false);
+					   Prefs.setString((Activity) context, "petName", petName.getText().toString());
 					   Intent intent = new Intent(context, HomeActivity.class);
 					   context.startActivity(intent);
 					   
