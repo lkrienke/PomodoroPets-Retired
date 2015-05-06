@@ -21,10 +21,17 @@ public class ImageAdapter extends PagerAdapter {
 	// SharedPreferences variables
 	// pet name key: petName
     // first time app opened boolean key: firstTime
-	
+
+	Context context;
 	EditText petName;
 	
-	Context context;
+	OnClickListener clickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			adoptPetDialog((Integer) v.getTag());	// tag contains viewPager position
+		}
+    };
 	
 	private int[] petImages = {
 		R.drawable.shiba,
@@ -47,34 +54,16 @@ public class ImageAdapter extends PagerAdapter {
 	
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
+		
 		ImageButton imageButton = new ImageButton(context);
 		int padding = 50;
+		
 		imageButton.setPadding(padding, padding, padding, padding);
 		imageButton.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 		imageButton.setBackgroundColor(Color.TRANSPARENT);
 		imageButton.setImageResource(petImages[position]);
-		
-		switch(position) {
-		case 0:
-			imageButton.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					adoptPetDialog(0);
-				}
-	        });
-			
-			break;
-		case 1:
-			imageButton.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-		            adoptPetDialog(1);
-				}
-	        });
-			break;
-		}
+		imageButton.setTag(position);
+		imageButton.setOnClickListener(clickListener);
 		
 		((ViewPager) container).addView(imageButton, 0);
 		return imageButton;

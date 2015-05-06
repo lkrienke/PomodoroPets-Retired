@@ -9,7 +9,8 @@ public class Prefs {
 	 * When naming your shared preference files, you should use a name that's
 	 * uniquely identifiable to your app, such as "com.example.myapp.PREFERENCE_FILE_KEY"
 	 */
-	private static String sharedPrefsKey = "com.jazzyapps.pomodoropets.POMO_PET_PREFS";
+	//private static String sharedPrefsKey = "com.jazzyapps.pomodoropets.POMO_PET_PREFS";
+	private static String sharedPrefsKey = "PomoPetsPrefs";
 	
 	/* 
 	 * @param Context context is generally 'this'
