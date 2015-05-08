@@ -9,8 +9,14 @@ public class Prefs {
 	 * When naming your shared preference files, you should use a name that's
 	 * uniquely identifiable to your app, such as "com.example.myapp.PREFERENCE_FILE_KEY"
 	 */
-	//private static String sharedPrefsKey = "com.jazzyapps.pomodoropets.POMO_PET_PREFS";
+	// change to:
+	// private static String sharedPrefsKey = "com.jazzyapps.pomodoropets.POMO_PET_PREFS";
+	// after updating HomeActivity to use this class
 	private static String sharedPrefsKey = "PomoPetsPrefs";
+	
+	// SharedPreferences keys
+	final static String firstTime = "firstTime";	// first time app opened
+	final static String petName = "petName";
 	
 	/* 
 	 * @param Context context is generally 'this'

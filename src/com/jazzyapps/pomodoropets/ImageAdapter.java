@@ -17,18 +17,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 public class ImageAdapter extends PagerAdapter {
-	
-	// SharedPreferences variables
-	// pet name key: petName
-    // first time app opened boolean key: firstTime
 
 	Context context;
 	EditText petName;
 	
-	OnClickListener clickListener = new OnClickListener() {
+	OnClickListener clickListener = new OnClickListener()
+	{
 		
 		@Override
-		public void onClick(View v) {
+		public void onClick(View v)
+		{
 			adoptPetDialog((Integer) v.getTag());	// tag contains viewPager position
 		}
     };
@@ -38,23 +36,26 @@ public class ImageAdapter extends PagerAdapter {
 		R.drawable.ditto
 		};
 	
-	ImageAdapter(Context context){
+	ImageAdapter(Context context)
+	{
 		this.context=context;
 	}
 	
 	@Override
-	public int getCount() {
+	public int getCount()
+	{
 		return petImages.length;
 	}
 	 
 	@Override
-	public boolean isViewFromObject(View view, Object object) {
+	public boolean isViewFromObject(View view, Object object)
+	{
 		return view == ((ImageButton) object);
 	}
 	
 	@Override
-	public Object instantiateItem(ViewGroup container, int position) {
-		
+	public Object instantiateItem(ViewGroup container, int position)
+	{		
 		ImageButton imageButton = new ImageButton(context);
 		int padding = 50;
 		
@@ -70,12 +71,14 @@ public class ImageAdapter extends PagerAdapter {
 	}
 	 
 	@Override
-	public void destroyItem(ViewGroup container, int position, Object object) {
+	public void destroyItem(ViewGroup container, int position, Object object)
+	{
 		((ViewPager) container).removeView((ImageButton) object);
 	}
 	
 	// Dialog congratulating user on adopting a pet
-	public void adoptPetDialog(int position) {
+	public void adoptPetDialog(int position)
+	{
 		
 		// Message to be displayed when pet is selected for adoption
 		int petDialog[] = {
@@ -92,15 +95,8 @@ public class ImageAdapter extends PagerAdapter {
 					   namePetDialog();
 				   }
 			   });
-			   /*.setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
-				   public void onClick(DialogInterface dialog, int id) {
-					   //delete pet type
-					   dialog.cancel();
-				   }
-			   });*/
 
-        AlertDialog alert = builder.create();
-        alert.show();
+        builder.create().show();	// create AlertDialog and show
 	}
 	
 	// Dialog prompting user to pick a name for their pet
@@ -108,7 +104,9 @@ public class ImageAdapter extends PagerAdapter {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				
 		petName = new EditText(context);
+		// makes every word start with a capital
 		petName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+		petName.setHint("Eugene Fitzherbert");	// sample name
 		
 		builder.setMessage(R.string.name_pet)
 			   .setView(petName)
@@ -116,24 +114,16 @@ public class ImageAdapter extends PagerAdapter {
 			   .setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
 				   public void onClick(DialogInterface dialog, int id) {
 					   
-					   Prefs.setBoolean((Activity) context, "firstTime", false);
-					   Prefs.setString((Activity) context, "petName", petName.getText().toString());
-					   Intent intent = new Intent(context, HomeActivity.class);
-					   context.startActivity(intent);
+					   Prefs.setBoolean(context, Prefs.firstTime, false);
+					   Prefs.setString(context, Prefs.petName, petName.getText().toString());
+					   context.startActivity(new Intent(context, HomeActivity.class));
 					   
 					   // finish PickPetActivity so the back button cannot go back to it
-					   Activity activity = (Activity) context;
-					   activity.finish();
+					   ((Activity) context).finish();
 				   }
 			   });
-			   /*.setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
-				   public void onClick(DialogInterface dialog, int id) {
-					   dialog.cancel();
-				   }
-			   });*/
 
-        AlertDialog alert = builder.create();
-        alert.show();
+        builder.create().show();	// create AlertDialog and show
 	}
 }
 
