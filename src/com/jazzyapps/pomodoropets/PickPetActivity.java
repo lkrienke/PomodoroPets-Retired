@@ -21,7 +21,7 @@ public class PickPetActivity extends Activity {
     final int PREV = 0;
     final int NEXT = 1;
     
-    // for when previous or next arrow clicked
+    // is called when previous or next arrow clicked
     OnClickListener clickListener = new OnClickListener()
     {
     	@Override
