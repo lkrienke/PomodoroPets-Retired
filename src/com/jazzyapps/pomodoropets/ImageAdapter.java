@@ -23,7 +23,6 @@ public class ImageAdapter extends PagerAdapter {
 	
 	OnClickListener clickListener = new OnClickListener()
 	{
-		
 		@Override
 		public void onClick(View v)
 		{
@@ -33,7 +32,8 @@ public class ImageAdapter extends PagerAdapter {
 	
 	private int[] petImages = {
 		R.drawable.shiba,
-		R.drawable.ditto
+		R.drawable.ditto,
+		R.drawable.kitty
 		};
 	
 	ImageAdapter(Context context)

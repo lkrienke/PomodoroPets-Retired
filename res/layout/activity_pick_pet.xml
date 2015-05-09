@@ -19,7 +19,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_weight="2" >
 
 	    <TextView
 	        android:id="@+id/pick_pet_text"
@@ -36,12 +36,43 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2" >
+        android:layout_weight="3" >
 	    
 	    <android.support.v4.view.ViewPager
 			android:id="@+id/view_pager"
 			android:layout_width="match_parent"
-			android:layout_height="200dp" />
+			android:layout_height="200dp"
+			android:layout_centerVertical="true" />
+		
+	    <ImageButton
+	        android:id="@+id/left_arrow_button"
+	        android:layout_width="70dp"
+	        android:layout_height="match_parent"
+	        android:scaleType="centerInside"
+	        android:background="#00000000"
+	        android:visibility="invisible"
+	        android:layout_alignParentLeft="true"
+	        android:paddingLeft="30dp"
+	        android:paddingRight="20dp"
+	        android:src="@drawable/arrow_grey_left" />
+	    
+	    <ImageButton
+	        android:id="@+id/right_arrow_button"
+	        android:layout_width="70dp"
+	        android:layout_height="match_parent"
+	        android:scaleType="centerInside"
+	        android:background="#00000000"
+	        android:visibility="invisible"
+	        android:layout_alignParentRight="true"
+	        android:paddingLeft="20dp"
+	        android:paddingRight="30dp"
+	        android:src="@drawable/arrow_grey_right" />
+
 	</RelativeLayout>
+	
+    <View 
+        android:layout_width="match_parent"
+	    android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>
