@@ -55,8 +55,10 @@ public class HomeActivity extends Activity {
         SharedPreferences prefs = getSharedPreferences("PomoPetsPrefs", 0);
         boolean firstTime = prefs.getBoolean("firstTime", true);
         
-        // if no pet has been picked before, run the PickPetActivity
-        if(firstTime)
+        boolean petDied = Prefs.getBoolean(this, Prefs.newPet, false);
+        
+        // if no pet has been picked before or pet died, run the PickPetActivity
+        if(firstTime || petDied)
         {
             startActivity(new Intent(this, PickPetActivity.class));
             finish();	// finish first instance of MainActivity if first time 
@@ -191,6 +193,7 @@ public class HomeActivity extends Activity {
 			initClock();
 			
 			//pick a new pet! (because yours died)
+			Prefs.setBoolean(this, Prefs.newPet, true);
             startActivity(new Intent(this, PickPetActivity.class));
             finish();
             

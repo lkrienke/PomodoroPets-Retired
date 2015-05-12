@@ -19,7 +19,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 public class ImageAdapter extends PagerAdapter {
 
@@ -42,7 +41,6 @@ public class ImageAdapter extends PagerAdapter {
 	private int[] petImages = {
 		R.drawable.shiba,
 		R.drawable.ditto,
-		R.drawable.kitty,
 		};
 	
 	ImageAdapter(Context context)
@@ -69,7 +67,7 @@ public class ImageAdapter extends PagerAdapter {
 		int padding = 50;
 		
 		imageButton.setPadding(padding, padding, padding, padding);
-		imageButton.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+		imageButton.setScaleType(ImageButton.ScaleType.CENTER_INSIDE);
 		imageButton.setBackgroundColor(Color.TRANSPARENT);
 		imageButton.setImageResource(petImages[position]);
 		imageButton.setTag(position);
@@ -96,8 +94,7 @@ public class ImageAdapter extends PagerAdapter {
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setMessage(petDialog[position])
-			   .setCancelable(true)
-			   .setPositiveButton(R.string.next, new DialogInterface.OnClickListener()
+			   .setPositiveButton(R.string.btn_next, new DialogInterface.OnClickListener()
 			   {
 				   public void onClick(DialogInterface dialog, int id)
 				   {
@@ -156,12 +153,12 @@ public class ImageAdapter extends PagerAdapter {
         
 		builder.setMessage(R.string.name_pet)
 			   .setView(petName)
-			   .setCancelable(false)
-			   .setPositiveButton(R.string.next, new DialogInterface.OnClickListener()
+			   .setPositiveButton(R.string.btn_next, new DialogInterface.OnClickListener()
 			   {
 				   public void onClick(DialogInterface dialog, int id)
 				   {
 					   Prefs.setBoolean(context, Prefs.firstTime, false);
+					   Prefs.setBoolean(context, Prefs.newPet, false);
 					   Prefs.setString(context, Prefs.petName, petName.getText().toString());
 					   context.startActivity(new Intent(context, HomeActivity.class));
 					   

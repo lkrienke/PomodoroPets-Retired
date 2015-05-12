@@ -2,21 +2,21 @@
 <resources>
 
     <string name="app_name">Pomodoro Pets</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="defaultButtonStringVal">0</string>
     <string name="workButton">Work</string>
-    <string name="ShibaDescription">A Cute Shiba Inu!</string>
     <string name="progressBarLabel">Happiness:</string>
-    <string name="shiba_inu">Shiba Inu</string>
     <string name="pick_pet">Pick a starter pet!</string>
     <string name="dialog_adopted_dog">Congratulations, you adopted a puppy!</string>
     <string name="dialog_adopted_ditto">Your ditto turned into a dog.</string>
-    <string name="next">next</string>
-    <string name="back">back</string>
+    <string name="btn_next">next</string>
+    <string name="btn_back">back</string>
     <string name="name_pet">Name your pet!</string>
     <string name="loss"><small><big>You lost!</big></small>\n<small><small>Click here to change time</small></small></string>
     <string name="win"><small><big>You win!</big></small>\n<small><small>Click here to change time</small></small></string>
     <string name="pick_new_pet">Pick a new pet!</string>
+    <string name="desc_left_arrow">previous button</string>
+    <string name="desc_right_arrow">next button</string>
+    <string name="desc_shiba">A cute Shiba Inu!</string>
     
 </resources>

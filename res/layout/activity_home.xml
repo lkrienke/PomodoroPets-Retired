@@ -45,7 +45,7 @@
         android:layout_centerVertical="true"
         android:scaleType="fitCenter"
         android:src="@drawable/shiba" 
-        android:contentDescription="@string/hello_world"
+        android:contentDescription="@string/desc_shiba"
         />
     
 <!-- Note: The progress bar color is changed in the main activity -->

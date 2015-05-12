@@ -17,6 +17,7 @@ public class Prefs {
 	// SharedPreferences keys
 	final static String firstTime = "firstTime";	// first time app opened
 	final static String petName = "petName";
+	final static String newPet = "newPet";
 	
 	/* 
 	 * @param Context context is generally 'this'

@@ -53,8 +53,9 @@
 	        android:visibility="invisible"
 	        android:layout_alignParentLeft="true"
 	        android:paddingLeft="30dp"
-	        android:paddingRight="20dp"
-	        android:src="@drawable/arrow_grey_left" />
+	        android:paddingRight="25dp"
+	        android:src="@drawable/arrow_grey_left"
+	        android:contentDescription="@string/desc_left_arrow" />
 	    
 	    <ImageButton
 	        android:id="@+id/right_arrow_button"
@@ -64,12 +65,14 @@
 	        android:background="#00000000"
 	        android:visibility="invisible"
 	        android:layout_alignParentRight="true"
-	        android:paddingLeft="20dp"
+	        android:paddingLeft="25dp"
 	        android:paddingRight="30dp"
-	        android:src="@drawable/arrow_grey_right" />
+	        android:src="@drawable/arrow_grey_right"
+	        android:contentDescription="@string/desc_right_arrow" />
 
 	</RelativeLayout>
 	
+    <!-- for layout spacing -->
     <View 
         android:layout_width="match_parent"
 	    android:layout_height="0dp"
