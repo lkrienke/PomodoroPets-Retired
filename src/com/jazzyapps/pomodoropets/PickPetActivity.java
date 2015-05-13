@@ -13,26 +13,24 @@ import android.widget.TextView;
 public class PickPetActivity extends Activity {
 	private TextView pickPetText;
 	
+	// Various Views
 	ViewPager viewPager;
 	ImageButton next;
     ImageButton prev;
     
-    int numItems;			// in viewPager
-    final int PREV = 0;
-    final int NEXT = 1;
+    // Number of items in viewPager, ie. number of pets
+    int numItems;
     
     // is called when previous or next arrow clicked
     OnClickListener clickListener = new OnClickListener()
     {
     	@Override
     	public void onClick(View v)
-		{
-    		int position = viewPager.getCurrentItem();
-    		
-    		if ((Integer) v.getTag() == NEXT)					// next arrow clicked
-    			viewPager.setCurrentItem(position+1, true);		// set viewPager to next page
-    		else												// prev arrow clicked
-    			viewPager.setCurrentItem(position-1, true);		// set viewPager to previous page
+		{    		
+    		// Get tag from arrow button indicating whether left
+    		// or right button was pressed. Make ViewPager scroll
+    		// in that direction.
+    		viewPager.arrowScroll((Integer) v.getTag());
 		}
     };
     	
@@ -43,22 +41,27 @@ public class PickPetActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_pick_pet);
         
+        // Initiate Views
         pickPetText = (TextView) findViewById(R.id.pick_pet_text);
-        
-        // if not first time app opened, change text
-        if(!Prefs.getBoolean(this, Prefs.firstTime, true))
-        {
-        	pickPetText.setText(R.string.pick_new_pet);
-        }
-        
         viewPager = (ViewPager) findViewById(R.id.view_pager);
+        // the next and prev arrow buttons start out being invisible
     	next = (ImageButton) findViewById(R.id.right_arrow_button);
         prev = (ImageButton) findViewById(R.id.left_arrow_button);
-	    
-        // so OnClickListener knows which button is being pressed
-        next.setTag(NEXT);
-        prev.setTag(PREV);
         
+        // if first time app opened, display starter pet text
+        if(Prefs.getBoolean(this, Prefs.firstTime, true))
+        {
+        	pickPetText.setText(R.string.pick_pet);
+        }
+	    
+        // So OnClickListener knows which button is being pressed.
+        // Use View.FOCUS_RIGHT and View.FOCUS_LEFT because the ViewPager.arrowScroll()
+        // method inside the onClickListener uses these to determine direction
+        next.setTag(View.FOCUS_RIGHT);
+        prev.setTag(View.FOCUS_LEFT);
+        
+        // will handle scrolling the viewPager when the next or previous
+        // arrow buttons are pressed
         next.setOnClickListener(clickListener);
         prev.setOnClickListener(clickListener);
         
@@ -69,7 +72,10 @@ public class PickPetActivity extends Activity {
         if (numItems > 1)
         	next.setVisibility(View.VISIBLE);
         
-	    viewPager.setAdapter(adapter);	// adapter provides images for viewPager to display
+        // adapter provides images for viewPager to display
+	    viewPager.setAdapter(adapter);
+	    // when page is changed, decide if left or right navigation arrows should be displayed
+	    // or hidden
 	    viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 	    	
 	    	@Override	// must be implemented or java will complain
@@ -82,26 +88,23 @@ public class PickPetActivity extends Activity {
 	    	@Override
 	    	public void onPageSelected (int position)
 	    	{
-	    		if (position == 0)									// first page
-	    		{													// hide prev arrow, show right arrow 
-	    															// if only 2 images in viewPager
+	    		if (position == 0)	// first page
+	    		{
+	    			// hide prev arrow and show next arrow
 	    			prev.setVisibility(View.INVISIBLE);
-	    			if (next.getVisibility() == View.INVISIBLE)
-	    				next.setVisibility(View.VISIBLE);
+	    			next.setVisibility(View.VISIBLE);
 	    		}
-	    		else if (position == numItems-1)					// 2nd to last page
-	    		{													// hide next arrow, show prev arrow
-	    															// if only 2 images in viewPager
+	    		else if (position == numItems-1)	// last page
+	    		{
+	    			// hide next arrow and show prev arrow
 	    			next.setVisibility(View.INVISIBLE);
-		    		if (prev.getVisibility() == View.INVISIBLE)
-	    				prev.setVisibility(View.VISIBLE);
+	    			prev.setVisibility(View.VISIBLE);
 	    		}
-	    		else												// all other pages
-	    		{													// both arrows should be visible
-	    			if (prev.getVisibility() == View.INVISIBLE)
-	    				prev.setVisibility(View.VISIBLE);
-	    			if (next.getVisibility() == View.INVISIBLE)
-	    				next.setVisibility(View.VISIBLE);
+	    		else	// all other pages
+	    		{
+	    			// show both prev and next arrow
+	    			prev.setVisibility(View.VISIBLE);
+	    			next.setVisibility(View.VISIBLE);
 	    		}
 	    	}
 	    });

@@ -27,7 +27,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_centerVertical="true"
 	        android:layout_centerHorizontal="true"
-	        android:text="@string/pick_pet"
+	        android:text="@string/pick_new_pet"
 	        android:textAppearance="?android:attr/textAppearanceLarge"
 	        android:textColor="#FFFFFF"
 	         />
