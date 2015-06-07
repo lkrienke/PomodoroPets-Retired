@@ -1,6 +1,7 @@
 package com.jazzyapps.pomodoropets;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,7 +10,9 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +39,7 @@ public class HomeActivity extends Activity {
 	//Various Views of DOOM
 	private PetCountDownTimer c;
 	private TextView tv;
+	// private TextView tv2;	// for testing milliseconds
 	private Button button;
 	private ProgressBar pb;
 	private AlertDialog.Builder taBuilder;
@@ -77,6 +81,7 @@ public class HomeActivity extends Activity {
 	        score = sp.getInt("score", 0);
 	        
 	        tv = (TextView) findViewById(R.id.textView1);
+	        // tv2 = (TextView) findViewById(R.id.textView4);	// for testing milliseconds
 			button = (Button) findViewById(R.id.button1);
 			pb = (ProgressBar) findViewById(R.id.progressBar1);
 			scoretv = (TextView) findViewById(R.id.textView3);
@@ -121,7 +126,7 @@ public class HomeActivity extends Activity {
     }
 	
 	
-	public class PetCountDownTimer extends CountDownTimer 
+	public class PetCountDownTimer extends CustomCountDownTimer 
 	{
 		SharedPreferences sp = getSharedPreferences("PomoPetsPrefs", 0);
         SharedPreferences.Editor sped = sp.edit();
@@ -299,6 +304,7 @@ public class HomeActivity extends Activity {
 	//Used to display the current clock
 	private void initClock()
 	{
+		
 		if(clickCount >= 60)
 		{
 			min = clickCount/60;
@@ -309,7 +315,6 @@ public class HomeActivity extends Activity {
 			min = 0;
 			sec = clickCount;
 		}
-		
 		//can still clean this up a bit
 		if(sec > 9)
 		{
@@ -397,5 +402,94 @@ public class HomeActivity extends Activity {
 		getSharedPreferences("PomoPetsPrefs", 0).edit().clear().commit();
 		// restart current activity
 		this.recreate();
+	}
+	
+	public abstract class CustomCountDownTimer {
+
+	    /**
+	     * Millis since epoch when alarm should stop.
+	     */
+	    private final long mMillisInFuture;
+
+	    /**
+	     * The interval in millis that the user receives callbacks
+	     */
+	    private final long mCountdownInterval;
+
+	    private long mStopTimeInFuture;
+	    
+	    private long mMillisLeft;
+
+	    /**
+	     * @param millisInFuture The number of millis in the future from the call
+	     *   to {@link #start()} until the countdown is done and {@link #onFinish()}
+	     *   is called.
+	     * @param countDownInterval The interval along the way to receive
+	     *   {@link #onTick(long)} callbacks.
+	     */
+	    public CustomCountDownTimer(long millisInFuture, long countDownInterval) {
+	        mMillisInFuture = millisInFuture - countDownInterval;
+	        mCountdownInterval = countDownInterval;
+	    }
+
+	    /**
+	     * Cancel the countdown.
+	     */
+	    public final void cancel() {
+	        mHandler.removeMessages(MSG);
+	    }
+
+	    /**
+	     * Start the countdown.
+	     */
+	    public synchronized final CustomCountDownTimer start() {
+	        if (mMillisInFuture <= 0) {
+	            onFinish();
+	            return this;
+	        }
+	        mStopTimeInFuture = SystemClock.elapsedRealtime() + mMillisInFuture;
+	        mMillisLeft = mMillisInFuture;
+	        mHandler.sendMessage(mHandler.obtainMessage(MSG));
+	        return this;
+	    }
+
+
+	    /**
+	     * Callback fired on regular interval.
+	     * @param millisUntilFinished The amount of time until finished.
+	     */
+	    public abstract void onTick(long millisUntilFinished);
+
+	    /**
+	     * Callback fired when the time is up.
+	     */
+	    public abstract void onFinish();
+
+
+	    private static final int MSG = 1;
+
+
+	    // handles counting down
+	    @SuppressLint("HandlerLeak")
+		private Handler mHandler = new Handler() {
+
+	        @Override
+	        public void handleMessage(Message msg) {
+
+	            synchronized (CustomCountDownTimer.this) {
+	                // tv2.setText(Long.toString(mMillisLeft));	// for testing milliseconds
+	                if (mMillisLeft <= 0) {
+	                    onFinish();
+	                } else {
+	                	onTick(mMillisLeft);
+
+		            	mMillisLeft -= mCountdownInterval;
+	                    long delay = mStopTimeInFuture - SystemClock.elapsedRealtime() - mMillisLeft;
+
+	                    sendMessageDelayed(obtainMessage(MSG), delay);
+	                }
+	            }
+	        }
+	    };
 	}
 }
